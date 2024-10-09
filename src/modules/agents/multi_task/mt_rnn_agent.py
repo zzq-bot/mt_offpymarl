@@ -123,7 +123,7 @@ class MTRNNAgent(nn.Module):
         assert energy.shape[0] == bs * self.args.head and energy.shape[1] == 1
         # shape[2] == n_entity
         score = F.softmax(energy, dim=-1)
-        score = th.bmm(score, v).view(bs, self.args.head, 1, self.entity_embed_dim) # (bs*head, 1, entity_embed_dim) 
+        out = th.bmm(score, v).view(bs, self.args.head, 1, self.entity_embed_dim) # (bs*head, 1, entity_embed_dim) 
         out = out.transpose(1, 2).contiguous().view(bs, 1, self.entity_embed_dim * self.args.head).squeeze(1)
         return out
     
